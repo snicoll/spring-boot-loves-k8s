@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "custom.test.property",
+      "type": "java.lang.String",
+      "description": "A test property to demonstrate how the environment can be tuned in a container."
+    }
+  ]
+}

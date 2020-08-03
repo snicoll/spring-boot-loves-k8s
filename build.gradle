@@ -1,0 +1,39 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath "io.spring.javaformat:spring-javaformat-gradle-plugin:$javaFormatVersion"
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.4.2' apply false
+	id "io.spring.dependency-management" version "1.0.11.RELEASE"
+}
+
+subprojects {
+	group 'io.spring.sample'
+
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'io.spring.javaformat'
+
+	repositories {
+		mavenCentral()
+	}
+
+	java {
+		sourceCompatibility = JavaVersion.VERSION_1_8
+		targetCompatibility = JavaVersion.VERSION_1_8
+	}
+
+	dependencyManagement {
+		dependencies {
+			dependency 'io.github.resilience4j:resilience4j-circuitbreaker:1.5.0'
+			dependency 'org.pegdown:pegdown:1.6.0'
+			dependency 'org.webjars.npm:bulma:0.9.0'
+		}
+	}
+
+}

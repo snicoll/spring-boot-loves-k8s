@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scribe Application</title>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/webjars/bulma/css/bulma.css}" />
+</head>
+
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Scribe</h1>
+        <p class="subtitle">Online text editor</p>
+        <div id="tabs" class="tabs is-medium">
+            <ul>
+                <li class="is-active" data-tab="editor"><a>Editor</a></li>
+                <li data-tab="html"><a>Preview</a></li>
+                <li data-tab="spellcheck"><a>Spell Check</a></li>
+            </ul>
+        </div>
+        <div id="editor" class="tab-content">
+            <form action="/" method="post" th:object="${document}">
+                <div class="field">
+                    <div class="control">
+                        <textarea rows="15" class="textarea" th:field="*{markup}" placeholder="Write your text here..."></textarea>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-link">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="html" class="tab-content is-hidden">
+            <div class="content is-family-monospace" th:utext="${document.html}">
+
+            </div>
+        </div>
+        <div id="spellcheck" class="tab-content is-hidden">
+            <div class="tile is-ancestor">
+                <div class="tile is-parent" th:each="typo : ${document.typos}">
+                    <article class="tile is-child notification is-warning">
+                        <p class="title" th:text="${typo.original}"></p>
+                        <div class="content" th:text="${typo.suggestions.toString()}"></div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.getElementById('tabs').querySelectorAll('li');
+    tabs.forEach(function(currentTab) {
+        currentTab.addEventListener('click', function () {
+            tabs.forEach(function (tabToClear) {
+                tabToClear.classList.remove('is-active');
+            });
+            currentTab.classList.add('is-active');
+            var tabName = currentTab.dataset.tab;
+            currentTab.closest('.container').querySelectorAll('.tab-content').forEach(function (tabContent) {
+                if (tabContent.id !== tabName) {
+                    tabContent.classList.add('is-hidden');
+                } else {
+                    tabContent.classList.remove('is-hidden');
+                }
+            });
+        }, false);
+    });
+});
+</script>
+</body>
+</html>

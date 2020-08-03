@@ -1,0 +1,10 @@
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+	}
+}
+
+rootProject.name = 'spring-boot-loves-k8s'
+
+include 'markdown-converter'
+include 'scribe'
