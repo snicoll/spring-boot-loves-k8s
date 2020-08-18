@@ -12,3 +12,21 @@ dependencies {
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
+
+bootJar {
+	layered {
+		application {
+			intoLayer("spring-boot-loader") {
+				include "org/springframework/boot/loader/**"
+			}
+			intoLayer("application")
+		}
+		dependencies {
+			intoLayer("webjars") {
+				include "org.webjars.npm*:*:*"
+			}
+			intoLayer("dependencies")
+		}
+		layerOrder = ["dependencies", "spring-boot-loader", "webjars", "application"]
+	}
+}

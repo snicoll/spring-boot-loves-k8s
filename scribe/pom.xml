@@ -53,6 +53,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<layers>
+						<configuration>${project.basedir}/src/main/layers.xml</configuration>
+					</layers>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
