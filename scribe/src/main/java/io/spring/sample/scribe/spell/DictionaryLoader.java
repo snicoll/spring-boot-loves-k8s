@@ -18,6 +18,7 @@ package io.spring.sample.scribe.spell;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ class DictionaryLoader implements ApplicationRunner {
 				this.spellChecker.addWordToDictionary(word);
 			}
 		}
+		Thread.sleep(Duration.ofSeconds(10).toMillis());
 	}
 
 }
