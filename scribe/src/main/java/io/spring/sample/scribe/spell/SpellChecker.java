@@ -23,6 +23,9 @@ import java.util.Objects;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -32,6 +35,12 @@ public class SpellChecker {
 	private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
 	private final NavigableSet<String> dictionary = new TreeSet<>();
+
+	private final ApplicationEventPublisher eventPublisher;
+
+	public SpellChecker(ApplicationEventPublisher eventPublisher) {
+		this.eventPublisher = eventPublisher;
+	}
 
 	public void addWordToDictionary(String word) {
 		this.dictionary.add(word);
@@ -44,6 +53,10 @@ public class SpellChecker {
 	}
 
 	Typo checkWord(String word) {
+		if ("broken".equals(word)) {
+			AvailabilityChangeEvent.publish(this.eventPublisher, this, LivenessState.BROKEN);
+			return null;
+		}
 		if (this.dictionary.contains(word)) {
 			return null;
 		}
